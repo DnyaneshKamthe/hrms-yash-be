@@ -29,9 +29,9 @@ app.use("/api/superuser", superUserRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/leaves", leaveRoutes);
 
-app.use((req, res, next) => {
-  return next(new Error("Could Not Find the Route"));
-});
+// app.use((req, res, next) => {
+//   return next(new Error("Could Not Find the Route"));
+// });
 
 app.listen(port, () => {
   console.log("Server started on 5000");
