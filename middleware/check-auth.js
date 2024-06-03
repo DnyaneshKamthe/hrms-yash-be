@@ -5,15 +5,19 @@ module.exports = async (req, res, next) => {
     return next();
   }
   try {
-    const token = await req.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization.split(" ")[1]; // Ensure the token is extracted correctly
     if (!token) {
       throw new Error("Authentication failed!");
     }
-    const decodedToken = jwt.verify(token, "secret_secret");
-    const auth_user = (req.userData = { userId: decodedToken.userId });
+    const decodedToken = jwt.verify(token, "secret_secret"); // Replace 'secret_secret' with your actual secret
+    req.user = { 
+      userId: decodedToken.userId, 
+      isSuperUser: decodedToken.isSuperUser 
+    };
     next();
   } catch (err) {
-    const error = new Error("Authentication failed!", 401);
+    const error = new Error("Authentication failed!");
+    error.status = 401;
     return next(error);
   }
 };

@@ -31,10 +31,10 @@ const getUserById = async (req, res, next) => {
 };
 
 const newUser = async (req, res, next) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return next(new Error("Invalid Data"));
-  }
+  // const error = validationResult(req);
+  // if (!error.isEmpty()) {
+  //   return next(new Error("Invalid Data"));
+  // }
   const {
     email,
     password,
@@ -104,10 +104,12 @@ const loginUser = async (req, res, next) => {
   }
 
   const { email, password } = req.body;
+  console.log(req.body);
   let existingUser;
   try {
     existingUser = await userModel.findOne({ email: email });
   } catch (error) {
+    console.log(error)
     return res
       .status(404)
       .send({ message: `${error.message}`, success: false });
@@ -132,11 +134,13 @@ const loginUser = async (req, res, next) => {
       {
         email: existingUser.email,
         userId: existingUser._id,
+        isSuperUser:existingUser.isSuperUser,
       },
       "secret_secret",
       { expiresIn: "1h" }
     );
   } catch (error) {
+    console.log(error)
     return res
       .status(404)
       .send({ message: "Could not set token", success: false });

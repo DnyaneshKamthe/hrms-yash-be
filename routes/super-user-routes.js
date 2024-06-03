@@ -13,7 +13,7 @@ superUserRoutes.post(
   loginUser
 );
 
-// superUserRoutes.use(checkAuth);
+superUserRoutes.use(checkAuth);
 
 superUserRoutes.post(
   "/signup",
