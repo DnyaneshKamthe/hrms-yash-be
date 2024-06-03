@@ -5,6 +5,7 @@ module.exports = async (req, res, next) => {
     return next();
   }
   try {
+    console.log(req.headers)
     const token = req.headers.authorization.split(" ")[1]; // Ensure the token is extracted correctly
     if (!token) {
       throw new Error("Authentication failed!");
